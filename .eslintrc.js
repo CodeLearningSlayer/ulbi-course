@@ -8,7 +8,10 @@ module.exports = {
         "plugin:react/recommended",
         "airbnb",
         "plugin:i18next/recommended",
-        "plugin:prettier/recommended", // Добавьте это
+        "plugin:prettier/recommended",
+        "plugin:storybook/recommended",
+        "plugin:storybook/recommended",
+        "plugin:storybook/recommended"
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
