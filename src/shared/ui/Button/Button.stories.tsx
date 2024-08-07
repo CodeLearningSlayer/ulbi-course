@@ -32,6 +32,12 @@ Clear.args = {
     theme: ThemeButton.CLEAR,
 };
 
+export const ClearInverted = Template.bind({});
+ClearInverted.args = {
+    children: "TEST Clear",
+    theme: ThemeButton.CLEAR_INVERTED,
+};
+
 export const Outline = Template.bind({});
 Outline.args = {
     children: "test outline",
@@ -75,21 +81,21 @@ SquareButton.args = {
 };
 
 export const SquareButtonL = Template.bind({});
-SquareButton.args = {
+SquareButtonL.args = {
     children: "test",
     square: true,
     size: ButtonSize.L,
 };
 
 export const SquareButtonM = Template.bind({});
-SquareButton.args = {
+SquareButtonM.args = {
     children: "test",
     square: true,
     size: ButtonSize.M,
 };
 
 export const SquareButtonXL = Template.bind({});
-SquareButton.args = {
+SquareButtonXL.args = {
     children: "test",
     square: true,
     size: ButtonSize.XL,
