@@ -55,6 +55,7 @@ module.exports = {
         "react-hooks/exhaustive-deps": "error",
         "no-plusplus": "off",
         "no-param-reassign": "off",
+        "react/prop-types": "off",
     },
     globals: {
         __IS_DEV__: true,

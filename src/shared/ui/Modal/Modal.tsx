@@ -1,19 +1,23 @@
 import { classNames } from "shared/lib/classNames/classNames";
 import React, { FC, useCallback, useEffect, useRef, useState } from "react";
+import { useTheme } from "app/providers/ThemeProvider";
 import cls from "./Modal.module.scss";
 import { Portal } from "../Portal/Portal";
 
 interface ModalProps {
     className?: string;
     isOpen?: boolean;
+    lazy?: boolean;
     onClose: () => void;
 }
 
 export const Modal: FC<ModalProps> = (props) => {
-    const { onClose, children, className, isOpen } = props;
+    const { onClose, children, className, isOpen, lazy } = props;
 
     const timerRef = useRef<ReturnType<typeof setTimeout>>();
     const [isClosing, setIsClosing] = useState(false);
+
+    const [isMounted, setIsMounted] = useState(false);
 
     const mods: Record<string, boolean> = {
         [cls.opened]: isOpen,
@@ -55,6 +59,17 @@ export const Modal: FC<ModalProps> = (props) => {
             window.removeEventListener("keydown", onKeyDown);
         };
     }, [isOpen, onKeyDown]);
+
+    useEffect(() => {
+        if (isOpen) {
+            setIsMounted(true);
+        }
+    }, [isOpen]);
+
+    // тут мы просто возвращаем null и ничего не отрисовываем
+    if (lazy && !isMounted) {
+        return null;
+    }
 
     return (
         <Portal>
