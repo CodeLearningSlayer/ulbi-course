@@ -25,5 +25,13 @@
         "password": "123"
       }
     ],
-    "profile": { "name": "typicode" }
+    "profile": { 
+      "name": "Max",
+      "age": 21,
+      "currency": "RUB", 
+      "country": "Russia",
+      "username": "Gibba4a",
+      "avatar": "https://cdn.sortiraparis.com/images/1001/98390/1014564-avatar-le-dernier-maitre-de-l-air-la-serie-netflix-en-live-action-devoile-sa-bande-annonce-finale.jpg",
+      "city": "Moscow" 
+    }
   }
