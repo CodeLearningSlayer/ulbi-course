@@ -25,7 +25,7 @@ const ProfilePage = ({ className }: ProfilePageProps) => {
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(fetchProfileData());
-    }, []);
+    }, [dispatch]);
 
     return (
         <DynamicModuleLoader reducers={reducers} removeAfterUnmount>

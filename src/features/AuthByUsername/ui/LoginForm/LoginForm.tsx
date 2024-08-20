@@ -1,5 +1,5 @@
 import { classNames } from "shared/lib/classNames/classNames";
-import React, { memo, useCallback } from "react";
+import React, { FC, memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, ButtonSize, ThemeButton } from "shared/ui/Button/Button";
 import { Input } from "shared/ui/Input/Input";
@@ -27,7 +27,7 @@ const initialReducers: ReducersList = {
     login: loginReducer,
 };
 
-const LoginForm = memo(({ className, onSuccess }: LoginFormProps) => {
+const LoginForm: FC<LoginFormProps> = memo(({ className, onSuccess }) => {
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
 

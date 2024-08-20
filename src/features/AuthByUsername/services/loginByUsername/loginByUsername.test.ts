@@ -1,6 +1,4 @@
 import axios from "axios";
-import { Dispatch } from "@reduxjs/toolkit";
-import { StateSchema } from "app/providers/StoreProvider";
 import { userActions } from "entities/User";
 import { TestAsyncThunk } from "shared/lib/tests/testAsyncThunk/TestAsyncThunk";
 import { loginByUsername } from "./loginByUsername";
@@ -42,9 +40,9 @@ describe("loginByUsername test", () => {
     // });
 
     test("success login", async () => {
-        const userValue = { username: "123", id: "2" };
-        mockedAxios.post.mockReturnValue(Promise.resolve({ data: userValue }));
         const thunk = new TestAsyncThunk(loginByUsername);
+        const userValue = { username: "123", id: "2" };
+        thunk.api.post.mockReturnValue(Promise.resolve({ data: userValue }));
         const result = await thunk.callThunk({
             username: "123",
             password: "123",
@@ -53,18 +51,18 @@ describe("loginByUsername test", () => {
         expect(thunk.dispatch).toHaveBeenCalledWith(
             userActions.setAuthData(userValue),
         );
-        expect(mockedAxios.post).toHaveBeenCalled();
+        expect(thunk.api.post).toHaveBeenCalled();
         expect(result.payload).toEqual(userValue);
     });
 
     test("403 forbidden", async () => {
-        mockedAxios.post.mockReturnValue(Promise.resolve({ status: 403 }));
         const thunk = new TestAsyncThunk(loginByUsername);
+        thunk.api.post.mockReturnValue(Promise.resolve({ status: 403 }));
         const result = await thunk.callThunk({
             username: "123",
             password: "123",
         });
+        expect(thunk.api.post).toHaveBeenCalled();
         expect(result.meta.requestStatus).toBe("rejected");
-        expect(mockedAxios.post).toHaveBeenCalled();
     });
 });

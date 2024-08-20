@@ -34,7 +34,7 @@ export const loginByUsername = createAsyncThunk<
             JSON.stringify(response.data),
         );
         thunkAPI.dispatch(userActions.setAuthData(response.data));
-        thunkAPI.extra.navigate("/about");
+        thunkAPI.extra?.navigate?.("/about");
 
         return response.data;
     } catch (e) {

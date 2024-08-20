@@ -56,6 +56,7 @@ module.exports = {
         "no-plusplus": "off",
         "no-param-reassign": "off",
         "react/prop-types": "off",
+        "no-undef": "off",
     },
     globals: {
         __IS_DEV__: true,
