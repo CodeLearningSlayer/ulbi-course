@@ -11,10 +11,19 @@ export interface Profile {
     city?: string;
 }
 
+export enum ValidateProfileError {
+    INCORRECT_USER_NAME = "INCORRECT USER NAME",
+    INCORRECT_AGE = "INCORRECT AGE",
+    INCORRECT_COUNTRY = "INCORRECT COUNTRY",
+    NO_DATA = "NO DATA",
+    SERVER_ERROR = "SERVER ERROR",
+}
+
 export interface ProfileSchema {
     data?: Profile;
     form?: Profile;
     isLoading: boolean;
     error?: string;
     readonly: boolean;
+    validateError: ValidateProfileError[];
 }

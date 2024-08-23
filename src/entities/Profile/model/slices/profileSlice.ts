@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { updateProfileData } from "../../services/updateProfileData/updateProfileData";
-import { Profile, ProfileSchema } from "../types/profile";
+import { Profile, ProfileSchema, ValidateProfileError } from "../types/profile";
 import { fetchProfileData } from "../../services/fetchProfileData/fetchProfileData";
 
 const initialState: ProfileSchema = {
@@ -8,6 +8,7 @@ const initialState: ProfileSchema = {
     isLoading: false,
     error: undefined,
     data: undefined,
+    validateError: [],
 };
 
 const profileSlice = createSlice({
@@ -20,6 +21,7 @@ const profileSlice = createSlice({
         cancelEdit: (state) => {
             state.readonly = true;
             state.form = state.data;
+            state.validateError = [];
         },
         updateProfile: (state, action: PayloadAction<Profile>) => {
             state.form = { ...state.form, ...action.payload };
@@ -48,6 +50,7 @@ const profileSlice = createSlice({
             })
             .addCase(updateProfileData.pending, (state) => {
                 state.error = undefined;
+                state.validateError = [];
                 state.isLoading = true;
             })
             .addCase(
@@ -57,12 +60,19 @@ const profileSlice = createSlice({
                     state.data = action.payload;
                     state.form = action.payload;
                     state.readonly = true;
+                    state.validateError = [];
                 },
             )
-            .addCase(updateProfileData.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.payload;
-            });
+            .addCase(
+                updateProfileData.rejected,
+                (
+                    state,
+                    action: PayloadAction<ValidateProfileError[] | undefined>,
+                ) => {
+                    state.isLoading = false;
+                    state.validateError = action.payload ?? [];
+                },
+            );
     },
 });
 
