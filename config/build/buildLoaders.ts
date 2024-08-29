@@ -9,7 +9,9 @@ export function buildLoaders(options: BuildOptions): webpack.RuleSetRule[] {
 
     const babelLoader = buildBabelLoaders(options);
 
-    const cssLoader = buildCssLoaders(options);
+    const { isDev } = options;
+
+    const cssLoader = buildCssLoaders(isDev);
 
     // Если не используем тайпскрипт - нужен babel-loader
     const typescriptLoader = {
