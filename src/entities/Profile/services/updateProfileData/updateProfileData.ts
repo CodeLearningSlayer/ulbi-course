@@ -13,7 +13,7 @@ export const updateProfileData = createAsyncThunk<
 
     try {
         const formData = getProfileForm(getState());
-
+        const profileId = formData?.id;
         const errors = validateProfile(formData);
 
         if (errors.length) {
@@ -21,7 +21,7 @@ export const updateProfileData = createAsyncThunk<
         }
 
         const response = await thunkAPI.extra.api.put<Profile>(
-            "/profile",
+            `/profile/${profileId}`,
             formData,
         );
 

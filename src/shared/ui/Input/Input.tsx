@@ -68,7 +68,7 @@ export const Input: FC<InputProps> = memo((props) => {
     }, [autoFocus]);
 
     return (
-        <div className={classNames(cls.InputWrapper, mods, [])}>
+        <div className={classNames(cls.InputWrapper, mods, [className])}>
             {placeholder && (
                 <div className={cls.placeholder}>{`${placeholder}>`}</div>
             )}
@@ -76,7 +76,7 @@ export const Input: FC<InputProps> = memo((props) => {
                 <input
                     type={type}
                     ref={ref}
-                    className={classNames(cls.input, {}, [className])}
+                    className={classNames(cls.input, {}, [])}
                     value={value}
                     onChange={onChangeHandler}
                     onFocus={onFocus}

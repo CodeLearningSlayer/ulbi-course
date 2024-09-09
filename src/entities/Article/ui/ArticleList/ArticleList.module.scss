@@ -1,0 +1,13 @@
+.ArticleList {
+    &.GRID {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    &.LIST {
+        .card {
+            margin-bottom: 20px;
+        }
+    }
+}

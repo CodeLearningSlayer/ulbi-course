@@ -28,6 +28,11 @@ const article: Article = {
     views: 1022,
     createdAt: "26.02.2022",
     type: [ArticleType.IT],
+    author: {
+        id: "2",
+        username: "Max",
+        avatar: "https://teknotower.com/wp-content/uploads/2020/11/js.png",
+    },
     blocks: [
         {
             id: "1",

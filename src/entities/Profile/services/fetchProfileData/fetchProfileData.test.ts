@@ -2,10 +2,7 @@ import { TestAsyncThunk } from "shared/lib/tests/testAsyncThunk/TestAsyncThunk";
 import { Profile } from "entities/Profile/model/types/profile";
 import { Country } from "entities/Country";
 import { Currency } from "entities/Currency";
-import { profileActions } from "../../model/slices/profileSlice";
 import { fetchProfileData } from "./fetchProfileData";
-
-jest.mock("axios");
 
 const userData: Profile = {
     age: 22,
@@ -21,7 +18,7 @@ describe("fetchProfileData test", () => {
         const thunk = new TestAsyncThunk(fetchProfileData);
 
         thunk.api.get.mockReturnValue(Promise.resolve({ data: userData }));
-        const result = await thunk.callThunk();
+        const result = await thunk.callThunk("1");
 
         expect(thunk.api.get).toHaveBeenCalled();
         expect(result.meta.requestStatus).toBe("fulfilled");
@@ -32,7 +29,7 @@ describe("fetchProfileData test", () => {
     test("fail", async () => {
         const thunk = new TestAsyncThunk(fetchProfileData);
         thunk.api.get.mockReturnValue(Promise.resolve({ status: 403 }));
-        const result = await thunk.callThunk();
+        const result = await thunk.callThunk("1");
         expect(thunk.api.get).toHaveBeenCalled();
         expect(result.meta.requestStatus).toBe("rejected");
     });
