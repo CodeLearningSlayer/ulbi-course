@@ -1,11 +1,34 @@
 import { classNames } from "shared/lib/classNames/classNames";
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 import { Article, ArticleList, ArticleView } from "entities/Article";
+import {
+    DynamicModuleLoader,
+    ReducersList,
+} from "shared/lib/components/DynamicModuleLoader/DynamicModuleLoader";
+import { useAppDispatch } from "shared/lib/hooks/useAppDispatch/useAppDispatch";
+import { useInitialEffect } from "shared/lib/hooks/useInitialEffect/useInitialEffect";
+import { fetchArticlesList } from "pages/ArticlesPage/model/services/fetchArticlesList/fetchArticlesList";
+import { useSelector } from "react-redux";
+import {
+    getArticlesPageError,
+    getArticlesPageIsLoading,
+    getArticlesPageView,
+} from "pages/ArticlesPage/model/selectors/articlesPageSelectors";
+import { ArticleViewSelector } from "features/ChangeView";
+import {
+    articlesPageActions,
+    articlesPageReducer,
+    getArticles,
+} from "../../model/slices/articlesPageSlice";
 import cls from "./ArticlesPage.module.scss";
 
 interface ArticlesPageProps {
     className?: string;
 }
+
+const reducers: ReducersList = {
+    articlesPage: articlesPageReducer,
+};
 
 const mockArticle = {
     id: "1",
@@ -105,21 +128,36 @@ const mockArticle = {
     ],
 };
 const ArticlesPage = ({ className }: ArticlesPageProps) => {
+    const dispatch = useAppDispatch();
+
+    const articles = useSelector(getArticles.selectAll);
+    const isLoading = useSelector(getArticlesPageIsLoading);
+    const error = useSelector(getArticlesPageError);
+    const view = useSelector(getArticlesPageView);
+
+    const onChangeView = useCallback(
+        (view: ArticleView) => {
+            dispatch(articlesPageActions.setView(view));
+        },
+        [dispatch],
+    );
+
+    useInitialEffect(() => {
+        dispatch(fetchArticlesList());
+        dispatch(articlesPageActions.initState());
+    });
+
     return (
-        <div className={classNames(cls.ArticlesPage, {}, [className])}>
-            <ArticleList
-                view={ArticleView.LIST}
-                isLoading
-                articles={
-                    Array(16)
-                        .fill(0)
-                        .map((item, index) => ({
-                            ...mockArticle,
-                            id: String(index),
-                        })) as Article[]
-                }
-            />
-        </div>
+        <DynamicModuleLoader reducers={reducers}>
+            <ArticleViewSelector view={view} onViewClick={onChangeView} />
+            <div className={classNames(cls.ArticlesPage, {}, [className])}>
+                <ArticleList
+                    view={view}
+                    isLoading={isLoading}
+                    articles={articles}
+                />
+            </div>
+        </DynamicModuleLoader>
     );
 };
 
