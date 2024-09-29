@@ -46,24 +46,12 @@ export const ArticleList = ({
         );
     };
 
-    if (isLoading) {
-        return (
-            <div
-                className={classNames(cls.ArticleList, {}, [
-                    cls[view],
-                    className,
-                ])}
-            >
-                {renderSkeletons(view)}
-            </div>
-        );
-    }
-
     return (
         <div
             className={classNames(cls.ArticleList, {}, [cls[view], className])}
         >
             {articles.length > 0 ? articles.map(renderArticle) : null}
+            {isLoading && renderSkeletons(view)}
         </div>
     );
 };

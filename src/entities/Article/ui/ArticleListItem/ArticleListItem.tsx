@@ -60,9 +60,9 @@ export const ArticleListItem = ({
             >
                 <Card className={cls.card}>
                     <div className={cls.header}>
-                        <Avatar size={30} src={article.author?.avatar} />
+                        <Avatar size={30} src={article.user?.avatar} />
                         <Text
-                            text={article.author?.username}
+                            text={article.user?.username}
                             className={cls.username}
                         />
                         <Text text={article.createdAt} className={cls.date} />

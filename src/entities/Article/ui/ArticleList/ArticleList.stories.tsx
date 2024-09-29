@@ -39,7 +39,7 @@ const mockArticle = {
     views: 1022,
     createdAt: "26.02.2022",
     type: ["IT"],
-    author: {
+    user: {
         username: "Maxo",
         id: "2",
         avatar: "https://teknotower.com/wp-content/uploads/2020/11/js.png",

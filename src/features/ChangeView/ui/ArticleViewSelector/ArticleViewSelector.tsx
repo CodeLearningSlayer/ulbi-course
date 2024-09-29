@@ -37,6 +37,7 @@ export const ArticleViewSelector = ({
         <div className={classNames(cls.ArticleViewSelector, {}, [className])}>
             {viewTypes.map((viewType) => (
                 <Button
+                    key={viewType.view}
                     className={classNames("", {
                         [cls.notSelected]: viewType.view !== view,
                     })}

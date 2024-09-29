@@ -43,6 +43,7 @@ module.exports = {
         "no-shadow": "off",
         "import/extensions": "off",
         "import/no-extraneous-dependencies": "off",
+        "consistent-return": "off",
         "no-underscore-dangle": "off",
         "i18next/no-literal-string": [
             2,
