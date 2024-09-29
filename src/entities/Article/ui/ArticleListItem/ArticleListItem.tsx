@@ -33,7 +33,7 @@ export const ArticleListItem = ({
     const [isHover, bindHover] = useHover();
     const navigate = useNavigate();
 
-    const types = <Text text={article.type.join(" ")} className={cls.types} />;
+    const types = <Text text={article.type?.join(" ")} className={cls.types} />;
     const views = (
         <>
             <Text text={String(article.views)} className={cls.views} />

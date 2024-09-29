@@ -12,6 +12,7 @@ import { ProfileSchema } from "entities/Profile";
 import { UserSchema } from "entities/User";
 import { AddCommentFormSchema } from "features/AddNewComment";
 import { LoginSchema } from "features/AuthByUsername/model/types/loginSchema";
+import { ScrollRestoreSchema } from "features/ScrollRestore";
 import { ArticleDetailsCommentSchema } from "pages/ArticleDetailsPage";
 import { ArticlesPageSchema } from "pages/ArticlesPage";
 import { NavigateFunction } from "react-router-dom";
@@ -19,6 +20,7 @@ import { NavigateFunction } from "react-router-dom";
 export interface StateSchema {
     counter: CounterSchema;
     user: UserSchema;
+    scrollRestore: ScrollRestoreSchema;
     login?: LoginSchema;
     profile?: ProfileSchema;
     articleDetails?: ArticleDetailsSchema;
