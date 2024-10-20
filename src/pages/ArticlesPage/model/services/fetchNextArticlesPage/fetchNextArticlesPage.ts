@@ -11,10 +11,6 @@ import {
 import { articlesPageActions } from "../../slices/articlesPageSlice";
 import { fetchArticlesList } from "../fetchArticlesList/fetchArticlesList";
 
-interface FetchArticleListProps {
-    page?: number;
-}
-
 export const fetchNextArticlesPage = createAsyncThunk<
     void,
     void,
@@ -29,11 +25,7 @@ export const fetchNextArticlesPage = createAsyncThunk<
 
         if (hasMore && !isLoading) {
             dispatch(articlesPageActions.setPage(page + 1));
-            dispatch(
-                fetchArticlesList({
-                    page: page + 1,
-                }),
-            );
+            dispatch(fetchArticlesList());
         }
     } catch (e) {
         return thunkAPI.rejectWithValue("error");
