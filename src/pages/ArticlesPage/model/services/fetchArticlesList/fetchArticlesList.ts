@@ -35,6 +35,7 @@ export const fetchArticlesList = createAsyncThunk<
             sort,
             order,
             search,
+            type,
         });
 
         const response = await thunkAPI.extra.api.get<Article[]>(`/articles`, {
