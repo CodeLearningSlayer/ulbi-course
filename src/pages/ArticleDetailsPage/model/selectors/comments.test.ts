@@ -8,8 +8,10 @@ describe("Test comments selectors", () => {
     test("getArticleCommentsIsLoading selector", () => {
         expect(
             getArticleCommentsIsLoading({
-                articleDetailsComments: {
-                    isLoading: true,
+                articleDetailsPage: {
+                    comments: {
+                        isLoading: true,
+                    },
                 },
             } as StateSchema),
         ).toEqual(true);
@@ -24,8 +26,10 @@ describe("Test comments selectors", () => {
     test("getArticleCommentsError selector", () => {
         expect(
             getArticleCommentsError({
-                articleDetailsComments: {
-                    error: "Something on da waaay",
+                articleDetailsPage: {
+                    comments: {
+                        error: "Something on da waaay",
+                    },
                 },
             } as StateSchema),
         ).toEqual("Something on da waaay");

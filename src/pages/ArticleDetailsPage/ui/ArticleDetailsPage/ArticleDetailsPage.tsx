@@ -1,9 +1,9 @@
 import { classNames } from "shared/lib/classNames/classNames";
 import React, { memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { ArticleDetails } from "entities/Article";
+import { ArticleDetails, ArticleList } from "entities/Article";
 import { useNavigate, useParams } from "react-router-dom";
-import { Text } from "shared/ui/Text/Text";
+import { Text, TextSize } from "shared/ui/Text/Text";
 import { CommentList } from "entities/Comment";
 import {
     DynamicModuleLoader,
@@ -15,13 +15,17 @@ import { AddCommentForm } from "features/AddNewComment";
 import { Button, ThemeButton } from "shared/ui/Button/Button";
 import { RoutePath } from "shared/config/routeConfig/routeConfig";
 import { Page } from "widgets/Page/Page";
+import {
+    articleDetailsRecommendationsSliceReducer,
+    getArticleRecommendations,
+} from "pages/ArticleDetailsPage/model/slices/articleDetailsPageRecommendationsSlice";
+import { getArticleRecommendationsIsLoading } from "pages/ArticleDetailsPage/model/selectors/recommendations";
+import { getArticleComments } from "pages/ArticleDetailsPage/model/slices/articleDetailsCommentsSlice";
+import { fetchArticleRecommendations } from "../../model/services/fetchArticleRecommendations/fetchArtilceRecommendations";
 import { fetchCommentsByArticleId } from "../../model/services/fetchCommentsByArticleId/fetchCommentsByArticleId";
 import { addCommentForArticle } from "../../model/services/addCommentForArticle/addCommentForArticle";
 import { getArticleCommentsIsLoading } from "../../model/selectors/comments";
-import {
-    articleDetailsCommentsReducer,
-    getArticleComments,
-} from "../../model/slices/articleDetailsCommentsSlice";
+import { articleDetailsPageReducer } from "../../model/slices";
 import cls from "./ArticleDetailsPage.module.scss";
 
 interface ArticleDetailsPageProps {
@@ -29,13 +33,17 @@ interface ArticleDetailsPageProps {
 }
 
 const reducers: ReducersList = {
-    articleDetailsComments: articleDetailsCommentsReducer,
+    articleDetailsPage: articleDetailsPageReducer,
 };
 
 const ArticleDetailsPage = ({ className }: ArticleDetailsPageProps) => {
     const { t } = useTranslation("article-details");
     const comments = useSelector(getArticleComments.selectAll);
     const isCommentsLoading = useSelector(getArticleCommentsIsLoading);
+    const recommendations = useSelector(getArticleRecommendations.selectAll);
+    const isRecommendationsLoading = useSelector(
+        getArticleRecommendationsIsLoading,
+    );
     const { id } = useParams<{ id: string }>();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -51,7 +59,10 @@ const ArticleDetailsPage = ({ className }: ArticleDetailsPageProps) => {
         navigate(RoutePath.articles);
     }, [navigate]);
 
-    useInitialEffect(() => dispatch(fetchCommentsByArticleId(id)));
+    useInitialEffect(() => {
+        dispatch(fetchCommentsByArticleId(id));
+        dispatch(fetchArticleRecommendations());
+    });
 
     if (!id) {
         return (
@@ -72,7 +83,22 @@ const ArticleDetailsPage = ({ className }: ArticleDetailsPageProps) => {
                     {t("Назад к списку")}
                 </Button>
                 <ArticleDetails id={id} />
-                <Text className={cls.commentTitle} title={t("Comments")} />
+                <Text
+                    className={cls.recommendationTitle}
+                    size={TextSize.L}
+                    title={t("Рекомендуем")}
+                />
+                <ArticleList
+                    target="_blank"
+                    className={cls.recommendationList}
+                    articles={recommendations}
+                    isLoading={isRecommendationsLoading}
+                />
+                <Text
+                    size={TextSize.L}
+                    className={cls.commentTitle}
+                    title={t("Comments")}
+                />
                 <AddCommentForm onSendComment={onSendComment} />
                 <CommentList
                     isLoading={isCommentsLoading}

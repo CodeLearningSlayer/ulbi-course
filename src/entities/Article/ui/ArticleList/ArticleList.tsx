@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { classNames } from "shared/lib/classNames/classNames";
-import React from "react";
+import React, { HTMLAttributeAnchorTarget } from "react";
 import { Text, TextSize } from "shared/ui/Text/Text";
 import { useTranslation } from "react-i18next";
 import cls from "./ArticleList.module.scss";
@@ -13,6 +13,7 @@ interface ArticleListProps {
     articles: Article[];
     isLoading?: boolean;
     view?: ArticleView;
+    target?: HTMLAttributeAnchorTarget;
 }
 
 const renderSkeletons = (view: ArticleView) => {
@@ -36,6 +37,7 @@ export const ArticleList = ({
     articles,
     isLoading,
     view = ArticleView.GRID,
+    target,
 }: ArticleListProps) => {
     const { t } = useTranslation();
 
@@ -44,6 +46,7 @@ export const ArticleList = ({
 
         return (
             <ArticleListItem
+                target={target}
                 className={cls.card}
                 key={article.id}
                 article={article}
