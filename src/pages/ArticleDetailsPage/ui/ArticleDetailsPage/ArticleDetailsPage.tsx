@@ -2,7 +2,7 @@ import { classNames } from "shared/lib/classNames/classNames";
 import React, { memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { ArticleDetails, ArticleList } from "entities/Article";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Text, TextSize } from "shared/ui/Text/Text";
 import { CommentList } from "entities/Comment";
 import {
@@ -12,13 +12,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useInitialEffect } from "shared/lib/hooks/useInitialEffect/useInitialEffect";
 import { AddCommentForm } from "features/AddNewComment";
-import { Button, ThemeButton } from "shared/ui/Button/Button";
-import { RoutePath } from "shared/config/routeConfig/routeConfig";
 import { Page } from "widgets/Page/Page";
-import {
-    articleDetailsRecommendationsSliceReducer,
-    getArticleRecommendations,
-} from "pages/ArticleDetailsPage/model/slices/articleDetailsPageRecommendationsSlice";
+import { getArticleRecommendations } from "pages/ArticleDetailsPage/model/slices/articleDetailsPageRecommendationsSlice";
 import { getArticleRecommendationsIsLoading } from "pages/ArticleDetailsPage/model/selectors/recommendations";
 import { getArticleComments } from "pages/ArticleDetailsPage/model/slices/articleDetailsCommentsSlice";
 import { fetchArticleRecommendations } from "../../model/services/fetchArticleRecommendations/fetchArtilceRecommendations";
@@ -27,6 +22,7 @@ import { addCommentForArticle } from "../../model/services/addCommentForArticle/
 import { getArticleCommentsIsLoading } from "../../model/selectors/comments";
 import { articleDetailsPageReducer } from "../../model/slices";
 import cls from "./ArticleDetailsPage.module.scss";
+import { ArticleDetailsPageHeader } from "./ArticleDetailsPageHeader/ArticleDetailsPageHeader";
 
 interface ArticleDetailsPageProps {
     className?: string;
@@ -46,7 +42,6 @@ const ArticleDetailsPage = ({ className }: ArticleDetailsPageProps) => {
     );
     const { id } = useParams<{ id: string }>();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const onSendComment = useCallback(
         (text: string) => {
@@ -54,10 +49,6 @@ const ArticleDetailsPage = ({ className }: ArticleDetailsPageProps) => {
         },
         [dispatch],
     );
-
-    const onBackToList = useCallback(() => {
-        navigate(RoutePath.articles);
-    }, [navigate]);
 
     useInitialEffect(() => {
         dispatch(fetchCommentsByArticleId(id));
@@ -79,9 +70,7 @@ const ArticleDetailsPage = ({ className }: ArticleDetailsPageProps) => {
             <Page
                 className={classNames(cls.ArticleDetailsPage, {}, [className])}
             >
-                <Button onClick={onBackToList} theme={ThemeButton.OUTLINE}>
-                    {t("Назад к списку")}
-                </Button>
+                <ArticleDetailsPageHeader />
                 <ArticleDetails id={id} />
                 <Text
                     className={cls.recommendationTitle}
